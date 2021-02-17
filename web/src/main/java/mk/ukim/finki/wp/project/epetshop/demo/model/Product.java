@@ -34,4 +34,76 @@ public class Product {
 
     public Product() {
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setSale(Integer sale) {
+        this.sale = sale;
+    }
+
+    public void setSold(Integer sold) {
+        this.sold = sold;
+    }
+
+    public void setSharingMembers(List<Member> sharingMembers) {
+        this.sharingMembers = sharingMembers;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public Integer getSale() {
+        return sale;
+    }
+
+    public Integer getSold() {
+        return sold;
+    }
+
+    public List<Member> getSharingMembers() {
+        return sharingMembers;
+    }
 }
