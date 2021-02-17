@@ -25,8 +25,8 @@
               >
             </li>
             <li class="nav-item ml-auto mr-2 mr-lg-3">
-              <router-link class="nav-link" to="/collections"
-                >Колекции</router-link
+              <router-link class="nav-link" to="/types"
+                >Категории</router-link
               >
             </li>
             <li  class="nav-item ml-auto mr-2 mr-lg-3">

@@ -7,7 +7,7 @@
           <span
             v-show="selectedCollection.name == undefined"
             class="h1 font-weight-bold text-primary"
-            >Одберете Колекција</span
+            >Одберете Категорија</span
           >
           <ul
             class="nav nav-pills justify-content-center"

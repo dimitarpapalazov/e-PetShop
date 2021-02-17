@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Products from "../views/Products.vue";
-import Collections from "../views/Collections.vue";
+import Types from "../views/Types.vue";
 import Contact from "../views/Contact.vue";
 import Details from "../views/Details.vue";
 import Login from "../views/Login.vue";
@@ -26,9 +26,9 @@ const routes = [
     component: Products,
   },
   {
-    path: "/collections",
-    name: "Collections",
-    component: Collections,
+    path: "/types",
+    name: "Types",
+    component: Types,
   },
   {
     path: "/contact",

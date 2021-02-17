@@ -1,7 +1,7 @@
 package mk.ukim.finki.wp.project.epetshop.demo.model;
 
 import lombok.Data;
-import mk.ukim.finki.wp.project.epetshop.demo.model.enumerations.Role;
+import mk.ukim.finki.wp.project.epetshop.demo.model.enumerations.MemberRole;
 import mk.ukim.finki.wp.project.epetshop.demo.model.enumerations.VerificationStatus;
 
 import javax.persistence.Entity;
@@ -25,7 +25,7 @@ public class Member {
     private String lastName;
 
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private MemberRole role;
 
     @Enumerated(value = EnumType.STRING)
     private VerificationStatus status;

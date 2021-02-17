@@ -30,8 +30,8 @@
                 >
               </li>
               <li>
-                <router-link to="/collections" class="text-dark"
-                  >Колекции</router-link
+                <router-link to="/types" class="text-dark"
+                  >Категории</router-link
                 >
               </li>
               <li>

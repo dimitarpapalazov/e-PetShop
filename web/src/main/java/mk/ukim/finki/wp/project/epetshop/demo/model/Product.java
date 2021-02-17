@@ -29,6 +29,9 @@ public class Product {
 
     private Integer sold;
 
+    @ManyToMany
+    private List<Member> sharingMembers;
+
     public Product() {
     }
 }
