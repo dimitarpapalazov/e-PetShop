@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class Type {
+public class ProductType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,6 @@ public class Type {
 
     private String name;
 
-    public Type() {
+    public ProductType() {
     }
 }

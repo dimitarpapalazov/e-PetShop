@@ -14,7 +14,7 @@ public class Product {
     private Long id;
 
     @ManyToOne
-    private Type type;
+    private ProductType type;
 
     @OneToMany
     private List<Image> images;
@@ -39,7 +39,7 @@ public class Product {
         this.id = id;
     }
 
-    public void setType(Type type) {
+    public void setType(ProductType type) {
         this.type = type;
     }
 
@@ -75,7 +75,7 @@ public class Product {
         return id;
     }
 
-    public Type getType() {
+    public ProductType getType() {
         return type;
     }
 

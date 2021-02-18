@@ -1,7 +1,7 @@
 package mk.ukim.finki.wp.project.epetshop.demo.service.impl;
 
 
-import mk.ukim.finki.wp.project.epetshop.demo.model.Type;
+import mk.ukim.finki.wp.project.epetshop.demo.model.ProductType;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.TypeRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.service.TypeService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class TypeServiceImpl implements TypeService {
 
 
     @Override
-    public List<Type> findAllTypes() {
+    public List<ProductType> findAllTypes() {
         return this.typeRepo.findAll();
     }
 }

@@ -2,13 +2,11 @@ package mk.ukim.finki.wp.project.epetshop.demo.service.impl;
 
 
 import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
-import mk.ukim.finki.wp.project.epetshop.demo.model.Type;
+import mk.ukim.finki.wp.project.epetshop.demo.model.ProductType;
 import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidProduct;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.ProductRepo;
-import mk.ukim.finki.wp.project.epetshop.demo.repository.TypeRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.service.ProductService;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -69,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findSimilarProducts(Long id) {
         Product product=this.findProduct(id);
-        Type type=product.getType();
+        ProductType type=product.getType();
         List<Product> products=this.productRepo.findAllByTypeLike(type);
         products.sort(Comparator.comparing(Product::getSold).reversed());
         List<Product> firstFour=new ArrayList<>();
