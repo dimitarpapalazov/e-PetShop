@@ -1,3 +1,4 @@
+<!--TODO треба да го препрам да е точно за регистрација-->
 <template>
   <div class="bg-light">
     <main class="form-signin">
@@ -31,9 +32,9 @@
         <button
             class="w-100 btn btn-lg btn-primary mt-3"
             type="submit"
-            @click.prevent="loginUser()"
+            @click.prevent="register()"
         >
-          Најави се
+          Регистрирај се
         </button>
       </form>
     </main>
@@ -49,7 +50,7 @@ export default {
     };
   },
   methods: {
-    loginUser() {},
+    register() {},
   },
 };
 </script>

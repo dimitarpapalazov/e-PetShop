@@ -134,18 +134,24 @@ export default {
   },
   methods: {
     addToDb() {
-      ProductService.add(this.product).then(() => {console.log("success")}).catch((e) => {
+      ProductService.add(this.product)
+          .then(() => {
+            console.log("success")
+          })
+          .catch((e) => {
         console.log(e)
       })
     },
-    addNewType() {},
+    addNewType() {
+      TypeService.add({name: this.type})
+    },
   },
   computed: {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
     types() {
-      return null;
+      return TypeService.allTypes();
     }
   },
   components: {

@@ -80,16 +80,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-lg-12 mt-5 p-3 rounded bg-primary">
-              <label>Додадете нов категорија на производ</label>
-              <input
-                placeholder="Додадете нов категорија на производ"
-                type="text"
-                v-model="type"
-                class="form-control my-auto"
-                @keyup.enter="addNewType()"
-              />
-            </div>
+
             <div class="col-lg-12 mt-5">
               <small class="text-primary"
                 >Ова нема да се прикажува на купувачите</small
@@ -131,6 +122,7 @@
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
 import ProductService from "@/repositories/productsRepository";
+import TypeService from "@/repositories/typesRepository";
 export default {
   props: {
     id: {
@@ -139,7 +131,6 @@ export default {
   },
   data() {
     return {
-      type: undefined,
       changeName: true,
       changeType: true,
       changeCollection: true,
@@ -151,7 +142,6 @@ export default {
     modifyProduct() {
       ProductService.edit(this.product);
     },
-    addNewType() {},
   },
   computed: {
     product() {
@@ -161,7 +151,7 @@ export default {
       return this.$store.state.loggedIn;
     },
     types() {
-      return null;
+      return TypeService.allTypes();
     }
   },
   components: {

@@ -103,9 +103,9 @@ export default {
     };
   },
   methods: {
-    updateTracking(
-        //order
-    ) {},
+    updateTracking(order) {
+      OrderService.addTracking(order.id, order.tracking)
+    },
   },
   computed: {
     orders(){

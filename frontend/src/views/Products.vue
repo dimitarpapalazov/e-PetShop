@@ -90,9 +90,9 @@ export default {
     getEditLink(id) {
       return "/edit/" + id;
     },
-    deleteItem(
-        //product
-    ) {},
+    deleteItem(product) {
+      ProductService.delete(product.id)
+    },
   },
   computed: {
     products() {

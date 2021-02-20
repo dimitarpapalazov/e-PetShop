@@ -93,6 +93,7 @@
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
 import ProductService from "@/repositories/productsRepository";
+import TypeService from "@/repositories/typesRepository";
 export default {
   data() {
     return {
@@ -115,7 +116,9 @@ export default {
     changeSelectedType(type) {
       this.selectedType = type;
     },
-    addNewType() {},
+    addNewType() {
+      TypeService.add({name: this.newType})
+    },
   },
   computed: {
     loggedIn() {

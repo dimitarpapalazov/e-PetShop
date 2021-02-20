@@ -79,8 +79,7 @@ export default {
   },
   computed: {
     best() {
-      // TODO: треба да се смени со best
-      return ProductService.allProducts();
+      return ProductService.bestProducts();
     },
   },
   components: {

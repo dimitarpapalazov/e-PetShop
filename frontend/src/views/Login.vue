@@ -6,13 +6,13 @@
           <h1 class="text-center">e-PetShop</h1>
         </router-link>
         <h1 class="h3 fw-normal mt-3">Ве молиме најавете се</h1>
-        <label for="inputEmail" class="visually-hidden mt-3"
-          >Email адреса</label
+        <label for="inputusername" class="visually-hidden mt-3"
+          >Корисничко име</label
         >
         <input
-          v-model="email"
-          type="email"
-          id="inputEmail"
+          v-model="username"
+          type="username"
+          id="inputusername"
           class="form-control"
           required
           autofocus
@@ -40,16 +40,20 @@
   </div>
 </template>
 <script>
+import MemberService from "@/repositories/memberRepository";
+
 export default {
   data() {
     return {
-      email: undefined,
+      username: undefined,
       password: undefined,
       errorMessage: undefined,
     };
   },
   methods: {
-    loginUser() {},
+    loginUser() {
+      MemberService.login(this.username, this.password)
+    },
   },
 };
 </script>

@@ -30,10 +30,9 @@ public class MemberRestController {
                                        @RequestParam String password,
                                        @RequestParam String repeat,
                                        @RequestParam String firstName,
-                                       @RequestParam String lastName,
-                                       @RequestParam MemberRole role,
-                                       @RequestParam VerificationStatus status) {
-        return this.memberService.register(username, email, password, repeat, firstName, lastName, role, status)
+                                       @RequestParam String lastName) {
+        return this.memberService.register(username, email, password, repeat,
+                firstName, lastName, MemberRole.ROLE_USER, VerificationStatus.PENDING)
                 .map(m -> ResponseEntity.ok().body(m))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }

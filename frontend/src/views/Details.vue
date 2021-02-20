@@ -135,7 +135,7 @@ export default {
       return ProductService.details(this.id);
     },
     similar() {
-      //TODO: треба да се смени со similar()
+      //TODO: треба да се смени со similar(), ne e napraeno
       return ProductService.allProducts();
     },
   },

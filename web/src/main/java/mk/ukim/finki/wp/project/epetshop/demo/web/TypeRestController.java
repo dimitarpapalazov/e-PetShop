@@ -28,8 +28,8 @@ public class TypeRestController {
         return this.typeService.findAllTypes();
     }
 
-    @GetMapping("/collections")
-    public List<Product> findProductsByType(@RequestParam ProductType type) {
+    @GetMapping("/by-type")
+    public List<Product> findProductsByType(@RequestBody ProductType type) {
         return this.productService.findAllByTypeLike(type);
     }
 

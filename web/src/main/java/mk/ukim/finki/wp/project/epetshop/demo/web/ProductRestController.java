@@ -23,7 +23,7 @@ public class ProductRestController {
         return this.productService.findAllProducts();
     }
 
-    @GetMapping("/most_selling")
+    @GetMapping("/most-selling")
     private List<Product> findMostSelling() {
         return this.productService.findMostSellingProducts();
     }

@@ -166,6 +166,7 @@ import Footer from "../components/Footer.vue";
 export default {
   data() {
     return {
+      //mozi ke pritreba
       delivery: 150,
       baseOrderType: true,
       doorOrderType: false,
@@ -199,7 +200,8 @@ export default {
       }
     },
     createOrder() {
-      //TODO треба да се напрај во контролер
+      //TODO треба да се допрај
+      return OrderService.add({})
     },
   },
   computed: {
