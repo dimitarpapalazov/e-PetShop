@@ -28,7 +28,7 @@ public class OrderRestController {
             return this.orderService.findAllOrders();
     }
 
-    @PostMapping("/payment")
+    @PostMapping("/save")
     public ResponseEntity<Order> save(@RequestBody Order order) {
         return this.orderService.addOrder(order)
                 .map(o -> ResponseEntity.ok().body(o))
