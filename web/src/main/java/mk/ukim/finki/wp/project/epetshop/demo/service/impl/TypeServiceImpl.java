@@ -21,4 +21,9 @@ public class TypeServiceImpl implements TypeService {
     public List<ProductType> findAllTypes() {
         return this.typeRepo.findAll();
     }
+
+    @Override
+    public ProductType addProductType(ProductType type) {
+        return this.typeRepo.save(type);
+    }
 }

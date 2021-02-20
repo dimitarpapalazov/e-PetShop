@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TypeService {
     List<ProductType> findAllTypes();
+
+    ProductType addProductType(ProductType type);
 }
