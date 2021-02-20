@@ -75,9 +75,10 @@
 <script>
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import ProductService from "@/repositories/productsRepository";
 export default {
   data() {
-    return { products: [] };
+    return {  };
   },
   methods: {
     addToCart(item) {
@@ -94,6 +95,9 @@ export default {
     ) {},
   },
   computed: {
+    products() {
+      return ProductService.allProducts();
+    },
     loggedIn() {
       return this.$store.state.loggedIn;
     },

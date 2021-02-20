@@ -138,6 +138,7 @@
 </template>
 
 <script>
+//TODO zastanav do ovaj del
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
 export default {

@@ -64,6 +64,7 @@
 <script>
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import ProductService from "../repositories/productsRepository";
 export default {
   data() {
     return { products: [] };
@@ -79,7 +80,7 @@ export default {
   computed: {
     best() {
       let bestProducts = [];
-      bestProducts = this.products;
+      bestProducts = ProductService.allProducts();
       bestProducts
         .sort((a, b) => {
           return a.sold - b.sold;
