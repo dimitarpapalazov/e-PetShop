@@ -30,6 +30,12 @@ public class ProductRestController {
 
     @GetMapping("/details/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id) {
+        return this.productService.findProduct(id).map(product -> ResponseEntity.ok().body(product))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/similar/{id}")
+    public ResponseEntity<Product> findSimilarProducts(@PathVariable Long id) {
         return this.productService.findSimilarProducts(id).map(product -> ResponseEntity.ok().body(product))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
