@@ -29,14 +29,14 @@ public class OrderRestController {
     }
 
     @PostMapping("/payment")
-    public ResponseEntity<Product> save(@RequestBody Order order) {
+    public ResponseEntity<Order> save(@RequestBody Order order) {
         return this.orderService.addOrder(order)
                 .map(o -> ResponseEntity.ok().body(o))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Product> save(@PathVariable Long id, @RequestParam Long number) {
+    public ResponseEntity<Order> save(@PathVariable Long id, @RequestParam Long number) {
         return this.orderService.editTrackingNumber(id, number)
                 .map(o -> ResponseEntity.ok().body(o))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
