@@ -76,4 +76,16 @@ public class ProductServiceImpl implements ProductService {
         }
         return firstFour;
     }
+
+    @Override
+    public Product deleteById(Long id) {
+        Product product=this.findProduct(id);
+        this.productRepo.delete(product);
+        return product;
+    }
+
+    @Override
+    public List<Product> findAllByTypeLike(ProductType type) {
+        return this.productRepo.findAllByTypeLike(type);
+    }
 }

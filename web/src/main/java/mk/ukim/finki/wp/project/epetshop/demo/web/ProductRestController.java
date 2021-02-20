@@ -23,9 +23,14 @@ public class ProductRestController {
         return this.productService.findAllProducts();
     }
 
+    @GetMapping("/most_selling")
+    private List<Product> findMostSelling() {
+        return this.productService.findMostSellingProducts();
+    }
+
     @GetMapping("/details/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id) {
-        return this.productService.findProduct(id).map(product -> ResponseEntity.ok().body(product))
+        return this.productService.findSimilarProducts(id).map(product -> ResponseEntity.ok().body(product))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -42,5 +47,14 @@ public class ProductRestController {
                 .map(produkt -> ResponseEntity.ok().body(produkt))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        this.productService.deleteById(id);
+        if(this.productService.findProduct(id).isEmpty())
+            return ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().build();
+    }
+
 }
 

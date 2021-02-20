@@ -17,7 +17,6 @@ public class TypeServiceImpl implements TypeService {
         this.typeRepo = typeRepo;
     }
 
-
     @Override
     public List<ProductType> findAllTypes() {
         return this.typeRepo.findAll();

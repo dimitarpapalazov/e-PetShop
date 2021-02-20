@@ -6,6 +6,12 @@ import java.util.List;
 
 public interface OrderService {
     List<Order> findAllOrders();
+
     List<Order> findAllOrdersByMember(String username);
+
     Order addOrder(Order order);
+
+    Order editTrackingNumber(Long id, Long number);
+
+    Order findOrder(Long id);
 }

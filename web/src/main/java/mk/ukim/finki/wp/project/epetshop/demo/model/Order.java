@@ -36,4 +36,8 @@ public class Order {
 
     public Order() {
     }
+
+    public void setTrackingNumber(Long trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
 }
