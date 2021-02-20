@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findMostSellingProducts() {
         List<Product> products=productRepo.findAll(Sort.by(Sort.Direction.ASC, "sold"));
-        if(products.size()<6){
+        if(products.size()<=6){
             return products;
         }
         else{
