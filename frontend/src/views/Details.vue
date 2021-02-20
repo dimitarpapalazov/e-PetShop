@@ -72,7 +72,7 @@
               :key="p.index"
               class="col-lg-3 text-center"
             >
-              <a :href="getLink(p['.key'])"
+              <a :href="getLink(p.id)"
                 ><img class="img-fluid rounded" :src="p.images[0]"
               /></a>
               <h5 class="mt-1 text-secondary font-weight-bold">
@@ -104,6 +104,7 @@
 <script>
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import ProductService from "@/repositories/productsRepository";
 export default {
   props: {
     id: {
@@ -112,16 +113,6 @@ export default {
   },
   data() {
     return {
-      file: undefined,
-      changeName: true,
-      changeType: true,
-      changeCollection: true,
-      changeQuantity: true,
-      changePrice: true,
-      //product: {},
-      products: [],
-      collections: [],
-      types: [],
       imageToShow: 0,
     };
   },
@@ -141,26 +132,11 @@ export default {
   },
   computed: {
     product() {
-      let prod = null;
-      for (let p of this.products) {
-        if (p[".key"] == this.id) {
-          prod = p;
-          break;
-        }
-      }
-      return prod;
+      return ProductService.details(this.id);
     },
     similar() {
-      let similarProducts = [];
-      for (let p of this.products) {
-        if (
-          this.product.collection == p.collection &&
-          this.product[".key"] != p[".key"]
-        ) {
-          similarProducts.push(p);
-        }
-      }
-      return similarProducts.slice(0, 4);
+      //TODO: треба да се смени со similar()
+      return ProductService.allProducts();
     },
   },
   components: {

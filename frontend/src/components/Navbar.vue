@@ -38,23 +38,23 @@
             <li
 
                 class="nav-item ml-auto mr-2 mr-lg-3"
-                @click="logOut()"
+
             >
-              <router-link class="nav-link" to="">Најави се</router-link>
+              <router-link class="nav-link" to="/login">Најави се</router-link>
             </li>
             <li
 
                 class="nav-item ml-auto mr-2 mr-lg-3"
-                @click="logOut()"
             >
-              <router-link class="nav-link" to="">Регистрирај се</router-link>
+              <router-link class="nav-link" to="/register">Регистрирај
+                се</router-link>
             </li>
             <li
 
               class="nav-item ml-auto mr-2 mr-lg-3"
               @click="logOut()"
             >
-              <router-link class="nav-link" to="">Одјави се</router-link>
+              <span class="nav-link">Одјави се</span>
             </li>
             <li  class="nav-item ml-auto mr-2">
               <router-link class="nav-link text-primary" to="/shoppingCart"

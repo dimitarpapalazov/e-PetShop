@@ -65,16 +65,8 @@
                     @click="updateTracking(o)"
                     class="btn btn-primary"
                     id="track"
-                    :href="
-                      'mailto:' +
-                      o.email +
-                      '?&subject=Вашата Too Cool пратка е испорачана преку Карго Експрес и ќе ви биде доставена најкасно за 48 часа.' +
-                      '&body=Почитуван/а ' +
-                      o.name +
-                      ', вашата пратка е испорачана. Проверете го статусот на вашата пратка на тел. 047-220350 / 070-307883. На операторите во Карго Експрес доволно е да го кажете вашето име и името на нашата фирма како испраќач: Too Cool. или овој код:' +
-                      o.tracking
-                    "
                   >
+<!--                    Треба да се напрај да се пушта автоматски емаил-->
                     Прати
                   </a>
                 </div>
@@ -103,11 +95,11 @@
 <script>
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import OrderService from "@/repositories/ordersRepository";
 
 export default {
   data() {
     return {
-      orders: [],
     };
   },
   methods: {
@@ -116,19 +108,12 @@ export default {
     ) {},
   },
   computed: {
+    orders(){
+      //TODO: треба да се смени ако ко ќе се напрај најавувањето
+      return OrderService.allOrders()
+    },
     loggedIn() {
       return this.$store.state.loggedIn;
-    },
-    body(id, tracking, name) {
-      let message =
-        "Почитуван/а " +
-        name +
-        ", вашата пратка " +
-        id +
-        " е испорачана.\n Доколку избравте бесплатна порачка до Карго База, истата може да ја подигнете на следниве локации: http://www.kargoekspres.mk/KargoZastapnici.aspx . Доколку избравте достава до адреса, курирот е должен пратката да ви ја достави до дома. Пратката ќе ви биде предадена за работни денови: 1-2 дена.\nПроверете го статусот на вашата пратка на тел. 047-220350 / 070-307883. На операторите во Карго Експрес доволно е да го кажете вашето име и името на нашата фирма како испраќач: Too Cool. или овој код:" +
-        tracking +
-        "\nBe cool, stay cool!";
-      return message;
     },
   },
   components: {

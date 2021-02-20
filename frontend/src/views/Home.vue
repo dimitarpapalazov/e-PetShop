@@ -30,7 +30,7 @@
             <div class="row mx-auto">
               <div class="col-lg-12 my-1 mx-auto">
                 <a
-                  :href="getLink(product['.key'])"
+                  :href="getLink(product.id)"
                   class="btn btn-outline-primary rounded"
                   >Повеќе</a
                 >
@@ -67,7 +67,7 @@ import Footer from "../components/Footer.vue";
 import ProductService from "../repositories/productsRepository";
 export default {
   data() {
-    return { products: [] };
+    return {  };
   },
   methods: {
     getLink(id) {
@@ -79,15 +79,8 @@ export default {
   },
   computed: {
     best() {
-      let bestProducts = [];
-      bestProducts = ProductService.allProducts();
-      bestProducts
-        .sort((a, b) => {
-          return a.sold - b.sold;
-        })
-        .reverse();
-      bestProducts = bestProducts.slice(0, 6);
-      return bestProducts;
+      // TODO: треба да се смени со best
+      return ProductService.allProducts();
     },
   },
   components: {

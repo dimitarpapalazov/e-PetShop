@@ -10,8 +10,8 @@ const ProductService = {
     add: (product) => {
         return axios.get("/api/products/add", product);
     },
-    edit: (id, product) => {
-        return axios.get("/api/products/edit/" + id, product);
+    edit: (product) => {
+        return axios.get("/api/products/edit/" + product.id, product);
     }
 }
 

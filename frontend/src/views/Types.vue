@@ -5,24 +5,24 @@
       <div class="row py-5">
         <div class="col-lg-12 text-center">
           <span
-            v-show="selectedCollection.name == undefined"
+            v-show="selectedType.name == undefined"
             class="h1 font-weight-bold text-primary"
             >Одберете Категорија</span
           >
           <ul
             class="nav nav-pills justify-content-center"
-            :class="{ 'mt-5': selectedCollection.name == undefined }"
+            :class="{ 'mt-5': selectedType.name == undefined }"
           >
             <li
-              v-for="collection in collections"
-              :key="collection.index"
+              v-for="type in types"
+              :key="type.index"
               class="h5 font-weight-bold text-uppercase nav-item mx-1 rounded"
             >
               <span
                 class="nav-link"
-                :class="{ active: selectedCollection.name == collection.name }"
-                @click="changeSelectedCollection(collection)"
-                >{{ collection.name }}</span
+                :class="{ active: selectedType.name == type.name }"
+                @click="changeSelectedType(type)"
+                >{{ type.name }}</span
               >
             </li>
             <li
@@ -31,8 +31,8 @@
             >
               <span
                 ><input
-                  @keyup.enter.prevent="addNewCollection(collection)"
-                  v-model="newCollection"
+                  @keyup.enter.prevent="addNewType(type)"
+                  v-model="newType"
                   type="text"
                   class="nav-link"
                   placeholder="Додади нова колекција"
@@ -42,7 +42,7 @@
         </div>
         <div
           v-for="product in products"
-          v-show="product.collection == selectedCollection.name"
+          v-show="product.type == selectedType.name"
           :key="product.index"
           class="col-lg-4"
         >
@@ -58,7 +58,7 @@
             <div class="row mx-auto">
               <div class="col-lg-12 my-1 mx-auto">
                 <a
-                  :href="getLink(product['.key'])"
+                  :href="getLink(product.id)"
                   class="btn btn-outline-primary rounded"
                   >Повеќе</a
                 >
@@ -92,13 +92,13 @@
 <script>
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import ProductService from "@/repositories/productsRepository";
 export default {
   data() {
     return {
-      newCollection: undefined,
-      products: [],
-      collections: [],
-      selectedCollection: {},
+      newType: undefined,
+      types: [],
+      selectedType: {},
     };
   },
   components: {
@@ -112,15 +112,18 @@ export default {
     getLink(id) {
       return "/details/" + id;
     },
-    changeSelectedCollection(collection) {
-      this.selectedCollection = collection;
+    changeSelectedType(type) {
+      this.selectedType = type;
     },
-    addNewCollection() {},
+    addNewType() {},
   },
   computed: {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
+    products() {
+      return ProductService.allProducts();
+    }
   },
 };
 </script>

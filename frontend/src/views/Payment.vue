@@ -198,7 +198,9 @@ export default {
         this.baseOrderType = true;
       }
     },
-    createOrder() {},
+    createOrder() {
+      //TODO треба да се напрај во контролер
+    },
   },
   computed: {
     total() {

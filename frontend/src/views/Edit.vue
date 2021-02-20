@@ -67,24 +67,9 @@
                 class="form-control my-auto"
               />
             </div>
+
             <div class="col-lg-12 mt-5">
-              <label for="collection">Одберете име на колекција</label>
-              <select
-                id="collection"
-                v-model="product.collection"
-                class="custom-select form-control"
-              >
-                <option
-                  v-for="collection in collections"
-                  :key="collection.id"
-                  :value="collection.name"
-                >
-                  {{ collection.name }}
-                </option>
-              </select>
-            </div>
-            <div class="col-lg-12 mt-5">
-              <label for="type">Одберете тип на производ</label>
+              <label for="type">Одберете категорија на производ</label>
               <select
                 id="type"
                 v-model="product.type"
@@ -96,9 +81,9 @@
               </select>
             </div>
             <div class="col-lg-12 mt-5 p-3 rounded bg-primary">
-              <label>Додадете нов тип на производ</label>
+              <label>Додадете нов категорија на производ</label>
               <input
-                placeholder="Додадете нов тип на производ"
+                placeholder="Додадете нов категорија на производ"
                 type="text"
                 v-model="type"
                 class="form-control my-auto"
@@ -128,14 +113,11 @@
             </div>
             <div class="col-lg-12">
               <button
-                @click="addToDb()"
+                @click="modifyProduct()"
                 class="mt-5 btn btn-lg btn-primary rounded"
               >
                 Зачувај
               </button>
-              <div v-show="uploadedBar != 0">
-                {{ uploadedBar }} % успешно додадени
-              </div>
             </div>
           </div>
         </div>
@@ -148,6 +130,7 @@
 <script>
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import ProductService from "@/repositories/productsRepository";
 export default {
   props: {
     id: {
@@ -156,60 +139,30 @@ export default {
   },
   data() {
     return {
-      uploadedBar: 0,
       type: undefined,
-      files: [],
       changeName: true,
       changeType: true,
       changeCollection: true,
       changeQuantity: true,
       changePrice: true,
-      products: [],
-      collections: [],
-      types: [],
-      uploadedImage: false,
-      oldImages: [],
-      imageToShow: 0,
-      imagesToUpload: [],
     };
   },
   methods: {
-    changeImage(number) {
-      this.imageToShow = number;
+    modifyProduct() {
+      ProductService.edit(this.product);
     },
-    getImage() {
-      if (this.uploadedImage) return this.imagesToUpload[this.imageToShow];
-      return this.product.images[this.imageToShow];
-    },
-    uploadImage(e) {
-      this.files = e.target.files;
-      this.oldImage = this.product.images;
-      this.uploadedImage = true;
-      for (let f of this.files) {
-        this.imagesToUpload.push(URL.createObjectURL(f));
-      }
-      this.getImage();
-    },
-    addToDb() {},
     addNewType() {},
-    getLink(id) {
-      return "/details/" + id;
-    },
   },
   computed: {
     product() {
-      let prod = null;
-      for (let p of this.products) {
-        if (p[".key"] == this.id) {
-          prod = p;
-          break;
-        }
-      }
-      return prod;
+      return ProductService.details(this.id);
     },
     loggedIn() {
       return this.$store.state.loggedIn;
     },
+    types() {
+      return null;
+    }
   },
   components: {
     "nav-component": Nav,

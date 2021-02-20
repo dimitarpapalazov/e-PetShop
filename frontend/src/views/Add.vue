@@ -8,7 +8,7 @@
     </div>
     <div class="container p-5 mt-5" v-show="loggedIn">
       <div class="row bg-white p-5 rounded">
-        <!-- Најавен -->
+        <!-- Овде ќе има промена -->
         <div class="col-lg-6">
           <img class="img-fluid" :src="imageToShow" />
           <div class="row">
@@ -54,23 +54,7 @@
               />
             </div>
             <div class="col-lg-12 mt-5">
-              <label for="collection">Одберете име на колекција</label>
-              <select
-                id="collection"
-                v-model="product.collection"
-                class="custom-select form-control"
-              >
-                <option
-                  v-for="collection in collections"
-                  :key="collection.id"
-                  :value="collection.name"
-                >
-                  {{ collection.name }}
-                </option>
-              </select>
-            </div>
-            <div class="col-lg-12 mt-5">
-              <label for="type">Одберете тип на производ</label>
+              <label for="type">Одберете категорија на производ</label>
               <select
                 id="type"
                 v-model="product.type"
@@ -82,9 +66,9 @@
               </select>
             </div>
             <div class="col-lg-12 mt-5 p-3 rounded bg-primary">
-              <label>Додадете нов тип на производ</label>
+              <label>Додадете нов категорија на производ</label>
               <input
-                placeholder="Додадете нов тип на производ"
+                placeholder="Додадете нов категорија на производ"
                 type="text"
                 v-model="type"
                 class="form-control my-auto"
@@ -119,15 +103,6 @@
               >
                 Зачувај
               </button>
-              <div v-show="uploadedBar != 0">
-                {{ uploadedBar }} % успешно додадени
-              </div>
-              <h1 v-show="showSuccess" class="font-weight-bold text-success">
-                Успешно додаден производ
-              </h1>
-              <h1 v-show="showError" class="font-weight-bold text-danger">
-                Неуспешно додаден производ, обиди си повторно
-              </h1>
             </div>
           </div>
         </div>
@@ -138,56 +113,40 @@
 </template>
 
 <script>
-//TODO zastanav do ovaj del
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import ProductService from "@/repositories/productsRepository";
 export default {
   data() {
     return {
-      imageToShow: undefined,
       type: undefined,
-      files: [],
-      changeName: true,
-      changeType: true,
-      changeCollection: true,
-      changeQuantity: true,
-      changePrice: true,
-      showSuccess: false,
-      showError: false,
       product: {
         price: undefined,
         name: undefined,
         type: undefined,
-        collection: undefined,
         quantity: undefined,
         images: [],
         sale: null,
+        sold: 0,
+        sharingMembers: []
       },
-      imagesToUpload: [],
-      products: [],
-      collections: [],
-      types: [],
-      uploadedBar: 0,
     };
   },
   methods: {
-    getImage(number = 0) {
-      this.imageToShow = this.imagesToUpload[number];
+    addToDb() {
+      ProductService.add(this.product).then(() => {console.log("success")}).catch((e) => {
+        console.log(e)
+      })
     },
-    uploadImage(e) {
-      this.files = e.target.files;
-      for (let f of this.files) {
-        this.imagesToUpload.push(URL.createObjectURL(f));
-      }
-      this.getImage();
-    },
-    addToDb() {},
     addNewType() {},
   },
   computed: {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
+    types() {
+      return null;
+    }
   },
   components: {
     "nav-component": Nav,
