@@ -5,6 +5,9 @@ import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidArgumentsE
 import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.MemberRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.service.AuthService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,4 +28,5 @@ public class AuthServiceImpl implements AuthService {
                 password).orElseThrow(InvalidUserCredentialsException::new);
 
     }
+
 }

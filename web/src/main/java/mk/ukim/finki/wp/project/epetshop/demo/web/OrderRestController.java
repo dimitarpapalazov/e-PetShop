@@ -2,7 +2,6 @@ package mk.ukim.finki.wp.project.epetshop.demo.web;
 
 
 import mk.ukim.finki.wp.project.epetshop.demo.model.Order;
-import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
 import mk.ukim.finki.wp.project.epetshop.demo.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +29,24 @@ public class OrderRestController {
 
     @PostMapping("/save")
     public ResponseEntity<Order> save(@RequestBody Order order) {
-        return this.orderService.addOrder(order)
-                .map(o -> ResponseEntity.ok().body(o))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        try {
+            Order o = this.orderService.addOrder(order);
+            return ResponseEntity.ok().body(o);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<Order> save(@PathVariable Long id, @RequestParam Long number) {
-        return this.orderService.editTrackingNumber(id, number)
-                .map(o -> ResponseEntity.ok().body(o))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        try {
+            Order o = this.orderService.editTrackingNumber(id, number);
+            return ResponseEntity.ok().body(o);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

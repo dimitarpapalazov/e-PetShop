@@ -26,12 +26,11 @@
               >
             </li>
             <li
-              v-show="loggedIn"
               class="h5 font-weight-bold text-uppercase nav-item mx-1"
             >
               <span
                 ><input
-                  @keyup.enter.prevent="addNewType(type)"
+                  @keyup.enter.prevent="addNewType()"
                   v-model="newType"
                   type="text"
                   class="nav-link"
@@ -134,10 +133,6 @@ export default {
 <style scoped>
 .nav-item {
   cursor: pointer;
-}
-.nav-link:hover {
-  background-color: #d63031;
-  color: white;
 }
 .vh {
   min-height: 80vh;

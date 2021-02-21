@@ -3,6 +3,7 @@ package mk.ukim.finki.wp.project.epetshop.demo.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,8 +17,7 @@ public class Product {
     @ManyToOne
     private ProductType type;
 
-    @OneToMany
-    private List<Image> images;
+    private String imageUrl;
 
     private String name;
 
@@ -39,13 +39,29 @@ public class Product {
         this.id = id;
     }
 
+    public Product(ProductType type, String imageUrl, String name, Double price, Integer quantity, Integer sale, Integer sold) {
+        this.type = type;
+        this.imageUrl = imageUrl;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.sale = sale;
+        this.sold = sold;
+        this.sharingMembers = new ArrayList<>();
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public void setType(ProductType type) {
         this.type = type;
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -79,9 +95,6 @@ public class Product {
         return type;
     }
 
-    public List<Image> getImages() {
-        return images;
-    }
 
     public String getName() {
         return name;

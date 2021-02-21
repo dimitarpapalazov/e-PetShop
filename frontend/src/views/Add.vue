@@ -6,31 +6,16 @@
         Не сте автентицирани за да имате пристап до оваа страна
       </span>
     </div>
-    <div class="container p-5 mt-5" v-show="loggedIn">
+    <div class="container p-5 mt-5" v-show="!loggedIn">
       <div class="row bg-white p-5 rounded">
-        <!-- Овде ќе има промена -->
         <div class="col-lg-6">
-          <img class="img-fluid" :src="imageToShow" />
-          <div class="row">
-            <div
-              v-for="img in imagesToUpload"
-              :key="img.index"
-              class="col-lg-2"
-            >
-              <img
-                @click="getImage(imagesToUpload.indexOf(img))"
-                style="cursor: pointer"
-                class="img-fluid img-thumbnail"
-                :src="img"
-              />
-            </div>
-          </div>
+          <img class="img-fluid" :src="product.image" />
+          <label>Внесете url за слика на производот</label>
           <input
-            class="form-control-file"
-            type="file"
-            accept="image/*"
-            @change="uploadImage"
-            multiple
+            type="text"
+            class="form-control my-auto"
+            placeholder="Внесете url за слика на производот"
+            v-model="product.image"
           />
         </div>
         <div class="col-lg-6">
@@ -60,25 +45,12 @@
                 v-model="product.type"
                 class="custom-select form-control"
               >
-                <option v-for="type in types" :key="type.id" :value="type.name">
+                <option v-for="type in types" :key="type.id" :value="type.id">
                   {{ type.name }}
                 </option>
               </select>
             </div>
-            <div class="col-lg-12 mt-5 p-3 rounded bg-primary">
-              <label>Додадете нов категорија на производ</label>
-              <input
-                placeholder="Додадете нов категорија на производ"
-                type="text"
-                v-model="type"
-                class="form-control my-auto"
-                @keyup.enter="addNewType()"
-              />
-            </div>
             <div class="col-lg-12 mt-5">
-              <small class="text-primary"
-                >Ова нема да се прикажува на купувачите</small
-              >
               <label>Внесете залиха на производот</label>
               <input
                 placeholder="Внесете залиха на производот"
@@ -116,16 +88,17 @@
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
 import ProductService from "@/repositories/productsRepository";
+import TypeService from "@/repositories/typesRepository";
 export default {
   data() {
     return {
-      type: undefined,
+      types: [],
       product: {
         price: undefined,
         name: undefined,
         type: undefined,
         quantity: undefined,
-        images: [],
+        image: undefined,
         sale: null,
         sold: 0,
         sharingMembers: []
@@ -134,6 +107,7 @@ export default {
   },
   methods: {
     addToDb() {
+      console.log(this.product)
       ProductService.add(this.product)
           .then(() => {
             console.log("success")
@@ -142,17 +116,18 @@ export default {
         console.log(e)
       })
     },
-    addNewType() {
-      TypeService.add({name: this.type})
-    },
+  },
+  created(){
+    ProductService.allProducts().then(response=>{console.log(response.data[0])})
+    TypeService.allTypes().then(response => {
+      this.types = response.data;
+      console.log(this.types[0])
+    }).catch(e => { console.log(e) })
   },
   computed: {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
-    types() {
-      return TypeService.allTypes();
-    }
   },
   components: {
     "nav-component": Nav,

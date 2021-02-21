@@ -7,7 +7,6 @@ import mk.ukim.finki.wp.project.epetshop.demo.service.TypeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 @RestController
@@ -34,9 +33,13 @@ public class TypeRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ProductType> save(@RequestBody ProductType type) {
-        return this.typeService.addProductType(type)
-                .map(t -> ResponseEntity.ok().body(t))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+    public ResponseEntity<ProductType> save(@RequestBody String type) {
+        try {
+            ProductType t = this.typeService.addProductType(type);
+            return ResponseEntity.ok().body(t);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

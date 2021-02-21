@@ -17,6 +17,10 @@ public class ProductType {
 
     private String name;
 
+    public ProductType(String name) {
+        this.name = name;
+    }
+
     public ProductType() {
     }
 }

@@ -1,5 +1,6 @@
 package mk.ukim.finki.wp.project.epetshop.demo.web;
 
+import mk.ukim.finki.wp.project.epetshop.demo.model.Order;
 import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
 import mk.ukim.finki.wp.project.epetshop.demo.service.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -30,36 +31,60 @@ public class ProductRestController {
 
     @GetMapping("/details/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id) {
-        return this.productService.findProduct(id).map(product -> ResponseEntity.ok().body(product))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Product p = this.productService.findProduct(id);
+            return ResponseEntity.ok().body(p);
+        }
+        catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/similar/{id}")
-    public ResponseEntity<Product> findSimilarProducts(@PathVariable Long id) {
-        return this.productService.findSimilarProducts(id).map(product -> ResponseEntity.ok().body(product))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<Product>> findSimilarProducts(@PathVariable Long id) {
+        try {
+            List<Product> products = this.productService.findSimilarProducts(id);
+            return ResponseEntity.ok().body(products);
+        }
+        catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/add")
     public ResponseEntity<Product> save(@RequestBody Product product) {
-        return this.productService.addProduct(product)
-                .map(produkt -> ResponseEntity.ok().body(produkt))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        try {
+            Product p = this.productService.addProduct(product);
+            return ResponseEntity.ok().body(p);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<Product> save(@PathVariable Long id, @RequestBody Product product) {
-        return this.productService.updateProduct(id, product)
-                .map(produkt -> ResponseEntity.ok().body(produkt))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        try {
+            Product p = this.productService.updateProduct(id, product);
+            return ResponseEntity.ok().body(p);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {
         this.productService.deleteById(id);
-        if(this.productService.findProduct(id).isEmpty())
-            return ResponseEntity.ok().build();
-        return ResponseEntity.badRequest().build();
+        try {
+            Product p = this.productService.findProduct(id);
+            if (p != null)
+                return ResponseEntity.ok().body(p);
+            else return ResponseEntity.notFound().build();
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

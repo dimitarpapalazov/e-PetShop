@@ -31,10 +31,15 @@ public class MemberRestController {
                                        @RequestParam String repeat,
                                        @RequestParam String firstName,
                                        @RequestParam String lastName) {
-        return this.memberService.register(username, email, password, repeat,
-                firstName, lastName, MemberRole.ROLE_USER, VerificationStatus.PENDING)
-                .map(m -> ResponseEntity.ok().body(m))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        try {
+            Member m = this.memberService.register(username, email, password, repeat,
+                    firstName, lastName, MemberRole.ROLE_USER,
+                    VerificationStatus.PENDING);
+            return ResponseEntity.ok().body(m);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/login")

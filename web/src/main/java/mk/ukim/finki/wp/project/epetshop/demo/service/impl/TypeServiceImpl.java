@@ -23,7 +23,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public ProductType addProductType(ProductType type) {
-        return this.typeRepo.save(type);
+    public ProductType addProductType(String type) {
+        return this.typeRepo.save(new ProductType(type));
     }
 }

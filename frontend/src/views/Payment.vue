@@ -163,6 +163,7 @@
 <script>
 import Nav from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import OrderService from "@/repositories/ordersRepository";
 export default {
   data() {
     return {

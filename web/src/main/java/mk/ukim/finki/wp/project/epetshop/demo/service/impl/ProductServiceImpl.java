@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(Long id, Product newProduct) {
         Product product=this.findProduct(id);
-        product.setImages(newProduct.getImages());
+        product.setImageUrl(newProduct.getImageUrl());
         product.setName(newProduct.getName());
         product.setPrice(newProduct.getPrice());
         product.setQuantity(newProduct.getQuantity());

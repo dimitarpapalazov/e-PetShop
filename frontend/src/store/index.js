@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     loggedIn: false,
     cart: [],
+    types:[],
   },
   mutations: {
     doLogIn(state) {
