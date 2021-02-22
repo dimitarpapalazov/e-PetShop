@@ -23,7 +23,7 @@
           >
             <img
               class="img-fluid rounded"
-              :src="product.images[0]"
+              :src="product.imageUrl"
               :alt="product.name"
             />
             <h4 class="text-secondary font-weight-bold">{{ product.name }}</h4>
@@ -67,7 +67,9 @@ import Footer from "../components/Footer.vue";
 import ProductService from "../repositories/productsRepository";
 export default {
   data() {
-    return {  };
+    return {
+      best: []
+    };
   },
   methods: {
     getLink(id) {
@@ -77,10 +79,10 @@ export default {
       this.$store.commit("addToCart", item);
     },
   },
-  computed: {
-    best() {
-      return ProductService.bestProducts();
-    },
+  created(){
+    ProductService.bestProducts().then(response => {
+      this.best = response.data;
+    })
   },
   components: {
     "nav-component": Nav,

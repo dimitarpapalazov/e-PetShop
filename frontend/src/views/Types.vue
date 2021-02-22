@@ -15,7 +15,7 @@
           >
             <li
               v-for="type in types"
-              :key="type.index"
+              :key="type.id"
               class="h5 font-weight-bold text-uppercase nav-item mx-1 rounded"
             >
               <span
@@ -41,8 +41,8 @@
         </div>
         <div
           v-for="product in products"
-          v-show="product.type == selectedType.name"
-          :key="product.index"
+          v-show="product.type.name == selectedType.name"
+          :key="product.id"
           class="col-lg-4"
         >
           <div
@@ -50,7 +50,7 @@
           >
             <img
               class="img-fluid rounded"
-              :src="product.images[0]"
+              :src="product.imageUrl"
               :alt="product.name"
             />
             <h4 class="text-secondary font-weight-bold">{{ product.name }}</h4>
@@ -99,6 +99,7 @@ export default {
       newType: undefined,
       types: [],
       selectedType: {},
+      products: [],
     };
   },
   components: {
@@ -116,16 +117,33 @@ export default {
       this.selectedType = type;
     },
     addNewType() {
-      TypeService.add({name: this.newType})
+      TypeService.add({name: this.newType}).then( () => {
+        this.loadTypes()
+        this.newType = "";
+      });
+
     },
+    loadProducts() {
+      ProductService.allProducts().then(response => {
+        this.products = response.data;
+        console.log(this.products)
+      })
+    },
+    loadTypes() {
+      TypeService.allTypes().then(response => {
+        this.types = response.data;
+        this.selectedType = this.types[0];
+      })
+    }
+  },
+  created() {
+    this.loadProducts();
+    this.loadTypes();
   },
   computed: {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
-    products() {
-      return ProductService.allProducts();
-    }
   },
 };
 </script>

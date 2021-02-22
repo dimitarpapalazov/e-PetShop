@@ -11,6 +11,8 @@ import ShoppingCart from "../views/ShoppingCart.vue";
 import Payment from "../views/Payment.vue";
 import Add from "../views/Add.vue";
 import Edit from "../views/Edit.vue";
+import Register from "@/views/Register";
+import Verify from "@/views/Verify";
 
 Vue.use(VueRouter);
 
@@ -39,6 +41,16 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
+  },
+  {
+    path: "/verify",
+    name: "Verify",
+    component: Verify,
   },
   {
     path: "/orders",

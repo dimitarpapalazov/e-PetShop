@@ -6,7 +6,6 @@ import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidUserCreden
 import mk.ukim.finki.wp.project.epetshop.demo.repository.MemberRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.service.AuthService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +13,12 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final MemberRepo memberRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(MemberRepo memberRepo) {
+
+    public AuthServiceImpl(MemberRepo memberRepo, PasswordEncoder passwordEncoder) {
         this.memberRepo = memberRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -24,9 +26,14 @@ public class AuthServiceImpl implements AuthService {
         if (username==null || username.isEmpty() || password==null || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
-        return memberRepo.findByUsernameAndPassword(username,
-                password).orElseThrow(InvalidUserCredentialsException::new);
-
+        Member member = memberRepo.findByUsername(username).get();
+        if(member != null) {
+            if(passwordEncoder.matches(password, member.getPassword())) {
+                return member;
+            }
+            throw new InvalidUserCredentialsException();
+        }
+        throw new InvalidUserCredentialsException();
     }
 
 }

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../custom-axios/axios";
 
 const MemberService = {
     registration: (username,email,password,repeat,firstName,lastName) => {
@@ -8,7 +8,7 @@ const MemberService = {
             "&repeat="+repeat+
             "&firstName="+firstName+
             "&lastName="+lastName;
-        return axios.get("/api/members/registration"+ params);
+        return axios.post("/api/members/registration"+ params);
     },
     login: (username, passwod) => {
         return axios.get("/api/members/login?username="+username + "&password="+passwod);

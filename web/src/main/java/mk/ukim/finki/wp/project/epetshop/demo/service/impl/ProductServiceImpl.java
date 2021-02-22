@@ -106,20 +106,4 @@ public class ProductServiceImpl implements ProductService {
 
         return Optional.of(this.productRepo.save(product));
     }
-
-    /*@Override
-    public Product updateProduct(Long id, Product newProduct) {
-        Product product=this.findProduct(id);
-        product.setImageUrl(newProduct.getImageUrl());
-        product.setName(newProduct.getName());
-        product.setPrice(newProduct.getPrice());
-        product.setQuantity(newProduct.getQuantity());
-        product.setSale(newProduct.getSale());
-        product.setSharingMembers(newProduct.getSharingMembers());
-        product.setSold(newProduct.getSold());
-        product.setType(newProduct.getType());
-        return this.productRepo.save(product);
-    }*/
-
-
 }

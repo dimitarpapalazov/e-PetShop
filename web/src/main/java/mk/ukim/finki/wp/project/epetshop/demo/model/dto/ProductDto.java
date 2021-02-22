@@ -23,20 +23,18 @@ public class ProductDto {
 
     private Integer sold;
 
-    private List<Long>  sharingMemberIds;
 
     public ProductDto() {
     }
 
-    public ProductDto(Long type, String imageUrl, String name, Double price, Integer quantity, Integer sale, Integer sold) {
+    public ProductDto(Long type, String imageUrl, String name, Double price, Integer quantity, Integer sale) {
         this.type = type;
         this.imageUrl = imageUrl;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.sale = sale;
-        this.sold = sold;
-        this.sharingMemberIds = new ArrayList<>();
+        this.sold = 0;
     }
 
     public Long getType() {

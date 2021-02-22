@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../custom-axios/axios";
 
 const ProductService = {
     allProducts: () => {
@@ -9,6 +9,9 @@ const ProductService = {
     },
     details: (id) => {
         return axios.get("/api/products/details/"+id);
+    },
+    similar: (id) => {
+        return axios.get("/api/products/similar/"+id);
     },
     add: (product) => {
         return axios.post("/api/products/add", product);

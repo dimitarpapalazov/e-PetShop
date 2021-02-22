@@ -35,6 +35,11 @@
         >
           Најави се
         </button>
+        <div class="text-center">
+        Немате акаунт?
+        <router-link to="/register">
+          Регистрирај се</router-link>
+        </div>
       </form>
     </main>
   </div>
@@ -48,11 +53,16 @@ export default {
       username: undefined,
       password: undefined,
       errorMessage: undefined,
+      user: {},
     };
   },
   methods: {
     loginUser() {
-      MemberService.login(this.username, this.password)
+      MemberService.login(this.username, this.password).then((response) => {
+        this.user = response.data;
+        this.$store.commit("doLogIn", this.user);
+        this.$router.push("/")
+      }).catch(() => this.errorMessage= "Настана грешка, обидете се повторно!")
     },
   },
 };

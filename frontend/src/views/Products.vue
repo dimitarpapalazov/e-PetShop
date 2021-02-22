@@ -25,21 +25,21 @@
             >
             <img
               class="img-fluid rounded"
-              :src="product.images[0]"
+              :src="product.imageUrl"
               :alt="product.name"
             />
             <h4 class="text-secondary font-weight-bold">{{ product.name }}</h4>
             <div class="row mx-auto">
               <div class="col-lg-12 my-1 mx-auto">
                 <a
-                  :href="getLink(product['.key'])"
+                  :href="getLink(product.id)"
                   class="btn btn-outline-primary rounded"
                   >Повеќе</a
                 >
               </div>
               <div class="col-lg-12 my-1 mx-auto">
                 <a
-                  :href="getEditLink(product['.key'])"
+                  :href="getEditLink(product.id)"
                   v-show="loggedIn"
                   class="btn btn-outline-primary rounded"
                 >
@@ -78,7 +78,9 @@ import Footer from "../components/Footer.vue";
 import ProductService from "@/repositories/productsRepository";
 export default {
   data() {
-    return {  };
+    return {
+      products: [],
+    };
   },
   methods: {
     addToCart(item) {
@@ -94,10 +96,12 @@ export default {
       ProductService.delete(product.id)
     },
   },
+  created(){
+    ProductService.allProducts().then(response => {
+      this.products = response.data;
+    })
+  },
   computed: {
-    products() {
-      return ProductService.allProducts();
-    },
     loggedIn() {
       return this.$store.state.loggedIn;
     },

@@ -6,16 +6,19 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     loggedIn: false,
+    user: {},
     cart: [],
     types:[],
   },
   mutations: {
-    doLogIn(state) {
+    doLogIn(state, user) {
       localStorage.setItem("loggedIn", true);
+      localStorage.setItem("user", JSON.stringify(user));
       state.loggedIn = true;
     },
     doLogOff(state) {
       localStorage.setItem("loggedIn", false);
+      localStorage.removeItem("user");
       state.loggedIn = false;
     },
     setCartToEmpty(state) {
@@ -25,14 +28,13 @@ export default new Vuex.Store({
     addToCart(state, product) {
       state.cart = JSON.parse(localStorage.getItem("cart"));
       for (let p of state.cart) {
-        if (p[".key"] == product[".key"]) {
+        if (p.id == product.id) {
           alert("Производот е веќе додаден во кошничката");
           return;
         }
       }
       if (product.quantity > 0) {
         alert("Производот е успешно додаден во кошничката");
-        product.id = product[".key"];
         state.cart.push(product);
         localStorage.setItem("cart", JSON.stringify(state.cart));
       } else {

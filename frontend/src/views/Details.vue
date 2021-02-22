@@ -4,21 +4,7 @@
     <div class="container mt-5">
       <div class="row bg-white my-5 p-5 rounded">
         <div class="col-lg-9 col-sm-12">
-          <img class="img-fluid rounded" :src="getImage()" />
-          <div class="row">
-            <div
-              v-for="img in product.images"
-              :key="img.index"
-              class="col-lg-2 m-3 image"
-            >
-              <img
-                @click="changeImage(product.images.indexOf(img))"
-                style="cursor: pointer"
-                class="img-fluid img-thumbnail"
-                :src="img"
-              />
-            </div>
-          </div>
+          <img class="img-fluid rounded" :src="product.imageUrl" />
         </div>
         <div class="col-lg-3 my-auto text-center">
           <div class="row">
@@ -45,7 +31,7 @@
               </div>
             </div>
             <div class="col-lg-12">
-              <h4 class="mt-5">{{ product.collection }}, {{ product.type }}</h4>
+              <h4 class="mt-5">{{ product.type.name }}</h4>
             </div>
             <div class="col-lg-12 mb-5">
               <button
@@ -73,7 +59,7 @@
               class="col-lg-3 text-center"
             >
               <a :href="getLink(p.id)"
-                ><img class="img-fluid rounded" :src="p.images[0]"
+                ><img class="img-fluid rounded" :src="p.imageUrl"
               /></a>
               <h5 class="mt-1 text-secondary font-weight-bold">
                 {{ p.name }}
@@ -113,31 +99,33 @@ export default {
   },
   data() {
     return {
-      imageToShow: 0,
+      product:{},
+      similar: [],
     };
   },
   methods: {
-    changeImage(number) {
-      this.imageToShow = number;
-    },
-    getImage() {
-      return this.product.images[this.imageToShow];
-    },
     addToCart(item) {
       this.$store.commit("addToCart", item);
     },
     getLink(id) {
       return "/details/" + id;
     },
+    loadProducts() {
+      ProductService.similar(this.id).then(response => {
+        this.similar = response.data;
+      })
+    },
+    loadProduct() {
+      ProductService.details(this.id).then(response => {
+        this.product = response.data;
+      })
+    }
+  },
+  created() {
+    this.loadProduct();
+    this.loadProducts();
   },
   computed: {
-    product() {
-      return ProductService.details(this.id);
-    },
-    similar() {
-      //TODO: треба да се смени со similar(), ne e napraeno
-      return ProductService.allProducts();
-    },
   },
   components: {
     "nav-component": Nav,

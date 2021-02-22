@@ -2,6 +2,7 @@ package mk.ukim.finki.wp.project.epetshop.demo.web;
 
 import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
 import mk.ukim.finki.wp.project.epetshop.demo.model.ProductType;
+import mk.ukim.finki.wp.project.epetshop.demo.model.dto.TypeDto;
 import mk.ukim.finki.wp.project.epetshop.demo.service.ProductService;
 import mk.ukim.finki.wp.project.epetshop.demo.service.TypeService;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,9 @@ public class TypeRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ProductType> save(@RequestBody String type) {
+    public ResponseEntity<ProductType> save(@RequestBody TypeDto type) {
         try {
-            ProductType t = this.typeService.addProductType(type);
+            ProductType t = this.typeService.addProductType(type.getName());
             return ResponseEntity.ok().body(t);
         }
         catch (Exception e) {
