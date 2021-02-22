@@ -11,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.util.Collection;
+import java.util.Random;
 
 @Data
 @Entity
@@ -26,6 +27,8 @@ public class Member implements UserDetails {
     private String firstName;
 
     private String lastName;
+
+    private Integer verificationCode;
 
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
@@ -44,6 +47,8 @@ public class Member implements UserDetails {
         this.lastName=lastName;
         this.role=role;
         this.status=status;
+        Random random = new Random();
+        this.verificationCode = random.nextInt(9999 - 1000 + 1) + 1000;
     }
 
     @Override

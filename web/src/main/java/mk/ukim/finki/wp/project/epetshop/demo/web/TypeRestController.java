@@ -27,9 +27,10 @@ public class TypeRestController {
         return this.typeService.findAllTypes();
     }
 
+    //Smeni go vo Long typeId
     @GetMapping("/by-type")
-    public List<Product> findProductsByType(@RequestBody ProductType type) {
-        return this.productService.findAllByTypeLike(type);
+    public List<Product> findProductsByType(@RequestBody Long typeId) {
+        return this.productService.findAllByTypeLike(typeId);
     }
 
     @PostMapping("/add")

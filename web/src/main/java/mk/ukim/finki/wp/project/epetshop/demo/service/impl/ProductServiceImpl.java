@@ -5,6 +5,7 @@ import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
 import mk.ukim.finki.wp.project.epetshop.demo.model.ProductType;
 import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidProduct;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.ProductRepo;
+import mk.ukim.finki.wp.project.epetshop.demo.repository.TypeRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.service.ProductService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,11 @@ import java.util.*;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepo;
+    private final TypeRepo typeRepo;
 
-    public ProductServiceImpl(ProductRepo productRepo) {
+    public ProductServiceImpl(ProductRepo productRepo, TypeRepo typeRepo) {
         this.productRepo = productRepo;
+        this.typeRepo = typeRepo;
     }
 
     @Override
@@ -85,7 +88,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllByTypeLike(ProductType type) {
+    public List<Product> findAllByTypeLike(Long typeid) {
+        // TODO Da se dopraj
+        //ProductType type = this.productRepo.findById(typeid);
         return this.productRepo.findAllByTypeLike(type);
     }
 }

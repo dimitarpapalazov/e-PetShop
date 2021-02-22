@@ -51,6 +51,7 @@ public class ProductRestController {
         }
     }
 
+    //TODO da se smeni
     @PostMapping("/add")
     public ResponseEntity<Product> save(@RequestBody Product product) {
         try {
@@ -62,6 +63,7 @@ public class ProductRestController {
         }
     }
 
+    //TODO i ovde productDto
     @PutMapping("/edit/{id}")
     public ResponseEntity<Product> save(@PathVariable Long id, @RequestBody Product product) {
         try {
