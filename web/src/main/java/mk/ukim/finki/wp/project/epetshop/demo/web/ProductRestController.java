@@ -2,11 +2,13 @@ package mk.ukim.finki.wp.project.epetshop.demo.web;
 
 import mk.ukim.finki.wp.project.epetshop.demo.model.Order;
 import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
+import mk.ukim.finki.wp.project.epetshop.demo.model.dto.ProductDto;
 import mk.ukim.finki.wp.project.epetshop.demo.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5000")
@@ -53,27 +55,22 @@ public class ProductRestController {
 
     //TODO da se smeni
     @PostMapping("/add")
-    public ResponseEntity<Product> save(@RequestBody Product product) {
-        try {
-            Product p = this.productService.addProduct(product);
-            return ResponseEntity.ok().body(p);
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Product> save(@RequestBody ProductDto productDto) {
+        return this.productService.addProduct(productDto)
+                .map(product -> ResponseEntity.ok().body(product))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+
     }
 
     //TODO i ovde productDto
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Product> save(@PathVariable Long id, @RequestBody Product product) {
-        try {
-            Product p = this.productService.updateProduct(id, product);
-            return ResponseEntity.ok().body(p);
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Product> save(@PathVariable Long id, @RequestBody ProductDto productDto) {
+        return this.productService.updateProduct(id, productDto)
+                .map(product -> ResponseEntity.ok().body(product))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
+
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {

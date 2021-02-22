@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface OrderRepo extends JpaRepository<Order, Long> {
     List<Order> findAllByMember_Username(String username);
+    void deleteByTrackingNumber(Long number);
 }

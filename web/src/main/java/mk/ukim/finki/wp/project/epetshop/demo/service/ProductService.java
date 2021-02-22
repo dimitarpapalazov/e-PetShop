@@ -2,6 +2,7 @@ package mk.ukim.finki.wp.project.epetshop.demo.service;
 
 import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
 import mk.ukim.finki.wp.project.epetshop.demo.model.ProductType;
+import mk.ukim.finki.wp.project.epetshop.demo.model.dto.ProductDto;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -15,13 +16,13 @@ public interface ProductService {
 
     List<Product> findMostSellingProducts();
 
-    Product updateProduct(Long id, Product newProduct);
+    Optional<Product> updateProduct(Long id, ProductDto newProduct);
 
-    Product addProduct(Product product);
+    Optional<Product> addProduct(ProductDto productDto);
 
     List<Product> findSimilarProducts(Long id);
 
     Product deleteById(Long id);
 
-    List<Product> findAllByTypeLike(ProductType type);
+    List<Product> findAllByTypeLike(Long typeId);
 }

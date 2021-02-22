@@ -40,4 +40,14 @@ public class Order {
     public void setTrackingNumber(Long trackingNumber) {
         this.trackingNumber = trackingNumber;
     }
+
+    public Order(Member member, String phoneNumber, String address, String city, String postalCode, Boolean toDoor, Long trackingNumber){
+        this.member=member;
+        this.phoneNumber=phoneNumber;
+        this.address=address;
+        this.city=city;
+        this.postalCode=postalCode;
+        this.toDoor=toDoor;
+        this.trackingNumber=trackingNumber;
+    }
 }

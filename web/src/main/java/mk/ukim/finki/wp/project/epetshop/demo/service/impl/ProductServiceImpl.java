@@ -3,7 +3,10 @@ package mk.ukim.finki.wp.project.epetshop.demo.service.impl;
 
 import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
 import mk.ukim.finki.wp.project.epetshop.demo.model.ProductType;
+import mk.ukim.finki.wp.project.epetshop.demo.model.dto.ProductDto;
 import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidProduct;
+import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidType;
+import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.ProductNotFoundException;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.ProductRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.TypeRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.service.ProductService;
@@ -49,25 +52,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long id, Product newProduct) {
-        Product product=this.findProduct(id);
-        product.setImageUrl(newProduct.getImageUrl());
-        product.setName(newProduct.getName());
-        product.setPrice(newProduct.getPrice());
-        product.setQuantity(newProduct.getQuantity());
-        product.setSale(newProduct.getSale());
-        product.setSharingMembers(newProduct.getSharingMembers());
-        product.setSold(newProduct.getSold());
-        product.setType(newProduct.getType());
-        return this.productRepo.save(product);
-    }
-
-    @Override
-    public Product addProduct(Product product) {
-        return this.productRepo.save(product);
-    }
-
-    @Override
     public List<Product> findSimilarProducts(Long id) {
         Product product=this.findProduct(id);
         ProductType type=product.getType();
@@ -89,8 +73,53 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllByTypeLike(Long typeid) {
-        // TODO Da se dopraj
-        //ProductType type = this.productRepo.findById(typeid);
-        return this.productRepo.findAllByTypeLike(type);
+        ProductType type = this.typeRepo.findById(typeid).orElse(null);
+        if(type==null){
+            throw new InvalidType();
+        }
+        else
+            return this.productRepo.findAllByTypeLike(type);
     }
+
+    @Override
+    public Optional<Product> addProduct(ProductDto productDto) {
+        ProductType type = this.typeRepo.findById(productDto.getType())
+                .orElseThrow(() -> new InvalidType());
+        this.productRepo.deleteByName(productDto.getName());
+        return Optional.of(this.productRepo.save(new Product(type, productDto.getImageUrl(), productDto.getName(), productDto.getPrice(), productDto.getQuantity(), productDto.getSale(), productDto.getSold())));
+    }
+
+    @Override
+    public Optional<Product> updateProduct(Long id, ProductDto productDto) {
+        Product product = this.productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+
+        product.setName(productDto.getName());
+        product.setPrice(productDto.getPrice());
+        product.setQuantity(productDto.getQuantity());
+
+        ProductType type = this.typeRepo.findById(productDto.getType())
+                .orElseThrow(() -> new InvalidType());
+        product.setType(type);
+        product.setSold(productDto.getSold());
+        product.setSale(productDto.getSale());
+        product.setImageUrl(productDto.getImageUrl());
+
+        return Optional.of(this.productRepo.save(product));
+    }
+
+    /*@Override
+    public Product updateProduct(Long id, Product newProduct) {
+        Product product=this.findProduct(id);
+        product.setImageUrl(newProduct.getImageUrl());
+        product.setName(newProduct.getName());
+        product.setPrice(newProduct.getPrice());
+        product.setQuantity(newProduct.getQuantity());
+        product.setSale(newProduct.getSale());
+        product.setSharingMembers(newProduct.getSharingMembers());
+        product.setSold(newProduct.getSold());
+        product.setType(newProduct.getType());
+        return this.productRepo.save(product);
+    }*/
+
+
 }
