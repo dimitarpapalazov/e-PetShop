@@ -16,8 +16,8 @@ const ProductService = {
     add: (product) => {
         return axios.post("/api/products/add", product);
     },
-    edit: (product) => {
-        return axios.post("/api/products/edit/" + product.id, product);
+    edit: (id, product) => {
+        return axios.post("/api/products/edit/" + id, product);
     },
     delete: (id) => {
         return axios.post("/api/products/delete/" + id);

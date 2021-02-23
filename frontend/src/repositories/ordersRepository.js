@@ -2,13 +2,16 @@ import axios from "../custom-axios/axios";
 
 const OrderService = {
     allOrders: (username) => {
-        return axios.get("/api/orders" + username!= null ? "?username="+username : "");
+        if(username != undefined) {
+            return axios.get("/api/orders?username=" + username);
+        }
+        return axios.get("/api/orders");
     },
     add: (order) => {
         return axios.post("/api/orders/save", order);
     },
     addTracking:(id, number) => {
-        return axios.post("/api/orders/edit/"+id+"?number="+ number);
+        return axios.post("/api/orders/edit?number="+ number+"&id=" + id);
     }
 }
 

@@ -10,4 +10,5 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface MemberService extends UserDetailsService {
 
     Member register(String username, String email, String password, String repeat, String firstName, String lastName, MemberRole role, VerificationStatus status);
+    Member verify(Integer code, String username);
 }

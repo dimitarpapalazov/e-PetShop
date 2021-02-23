@@ -28,7 +28,6 @@ public class OrderRestController {
             return this.orderService.findAllOrders();
     }
 
-    //Todo OrderDto
     @PostMapping("/save")
     public ResponseEntity<Order> save(@RequestBody OrderDto orderDto) {
         return this.orderService.addOrder(orderDto)
@@ -36,8 +35,9 @@ public class OrderRestController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<Order> save(@PathVariable Long id, @RequestParam Long number) {
+    @PostMapping("/edit")
+    public ResponseEntity<Order> save(@RequestParam Long id,
+                                      @RequestParam Long number) {
         try {
             Order o = this.orderService.editTrackingNumber(id, number);
             return ResponseEntity.ok().body(o);

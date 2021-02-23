@@ -8,43 +8,14 @@
     </div>
     <div class="container p-5 mt-5" v-show="loggedIn">
       <div class="row bg-white p-5 rounded">
-        <!-- Најавен -->
         <div class="col-lg-6">
-          <img class="img-fluid rounded" :src="getImage()" />
-          <div class="row">
-            <div
-              v-for="img in product.images"
-              :key="img.index"
-              class="col-lg-2"
-              v-show="!uploadedImage"
-            >
-              <img
-                @click="changeImage(product.images.indexOf(img))"
-                style="cursor: pointer"
-                class="img-fluid img-thumbnail"
-                :src="img"
-              />
-            </div>
-            <div
-              v-for="img in imagesToUpload"
-              :key="img.index"
-              class="col-lg-2"
-              v-show="uploadedImage"
-            >
-              <img
-                @click="changeImage(imagesToUpload.indexOf(img))"
-                style="cursor: pointer"
-                class="img-fluid img-thumbnail"
-                :src="img"
-              />
-            </div>
-          </div>
+          <img class="img-fluid" :src="product.imageUrl" />
+          <label>Внесете url за слика на производот</label>
           <input
-            class="form-control-file"
-            type="file"
-            accept="image/*"
-            @change="uploadImage"
-            multiple
+              type="text"
+              class="form-control my-auto"
+              placeholder="Внесете url за слика на производот"
+              v-model="product.imageUrl"
           />
         </div>
         <div class="col-lg-6">
@@ -75,7 +46,7 @@
                 v-model="product.type"
                 class="custom-select form-control"
               >
-                <option v-for="type in types" :key="type.id" :value="type.name">
+                <option v-for="type in types" :key="type.id" :value="type.id">
                   {{ type.name }}
                 </option>
               </select>
@@ -136,23 +107,44 @@ export default {
       changeCollection: true,
       changeQuantity: true,
       changePrice: true,
+      product: {},
+      types: [],
     };
   },
   methods: {
     modifyProduct() {
-      ProductService.edit(this.product);
+      ProductService.edit(this.product.id,{
+        price: this.product.price,
+        name: this.product.name,
+        type: this.product.type,
+        quantity: this.product.quantity,
+        imageUrl: this.product.imageUrl,
+        sale: this.product.sale,
+        sold: this.product.sold,
+      }).then(()=>{
+        alert("Успешно додаден производ!")
+        this.$router.push("/");
+      });
     },
+    loadProduct() {
+      ProductService.details(this.id).then((response) => {
+        this.product = response.data;
+      })
+    },
+    loadTypes() {
+      TypeService.allTypes().then((response) => {
+        this.types = response.data;
+      })
+    }
+  },
+  mounted() {
+    this.loadTypes();
+    this.loadProduct();
   },
   computed: {
-    product() {
-      return ProductService.details(this.id);
-    },
     loggedIn() {
       return this.$store.state.loggedIn;
     },
-    types() {
-      return TypeService.allTypes();
-    }
   },
   components: {
     "nav-component": Nav,

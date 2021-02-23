@@ -27,6 +27,8 @@
             </li>
             <li
               class="h5 font-weight-bold text-uppercase nav-item mx-1"
+              v-show="user == null ? false: user.role ===
+          'ROLE_ADMIN'"
             >
               <span
                 ><input
@@ -108,7 +110,10 @@ export default {
   },
   methods: {
     addToCart(item) {
-      this.$store.commit("addToCart", item);
+      if(this.loggedIn)
+        this.$store.commit("addToCart", item);
+      else
+        this.$router.push("/login")
     },
     getLink(id) {
       return "/details/" + id;
@@ -144,6 +149,9 @@ export default {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
+    user() {
+      return this.$store.state.user;
+    }
   },
 };
 </script>

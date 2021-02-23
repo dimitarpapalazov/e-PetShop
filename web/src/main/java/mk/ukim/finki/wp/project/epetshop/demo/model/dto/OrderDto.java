@@ -20,22 +20,21 @@ public class OrderDto {
 
     private Boolean toDoor;
 
-    private Long trackingNumber;
-
     private List<Long> productIds;
 
     public OrderDto() {
     }
 
-    public OrderDto(String username, String phoneNumber, String address, String city, String postalCode, Boolean toDoor, Long trackingNumber) {
+    public OrderDto(String username, String phoneNumber, String address,
+                    String city, String postalCode, Boolean toDoor,
+                    List<Long> ids) {
         this.username = username;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.city = city;
         this.postalCode = postalCode;
         this.toDoor = toDoor;
-        this.trackingNumber = trackingNumber;
-        this.productIds=new ArrayList<>();
+        this.productIds= ids;
     }
 
     public String getUsername() {
@@ -62,7 +61,4 @@ public class OrderDto {
         return toDoor;
     }
 
-    public Long getTrackingNumber() {
-        return trackingNumber;
-    }
 }

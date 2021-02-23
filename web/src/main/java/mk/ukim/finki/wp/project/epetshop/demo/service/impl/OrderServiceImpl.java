@@ -4,15 +4,15 @@ import mk.ukim.finki.wp.project.epetshop.demo.model.Member;
 import mk.ukim.finki.wp.project.epetshop.demo.model.Order;
 import mk.ukim.finki.wp.project.epetshop.demo.model.Product;
 import mk.ukim.finki.wp.project.epetshop.demo.model.dto.OrderDto;
-import mk.ukim.finki.wp.project.epetshop.demo.model.dto.ProductDto;
 import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidOrder;
-import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidType;
 import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidUsernameException;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.MemberRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.OrderRepo;
+import mk.ukim.finki.wp.project.epetshop.demo.repository.ProductRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.service.OrderService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,10 +21,12 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepo orderRepo;
     private final MemberRepo memberRepo;
+    private final ProductRepo productRepo;
 
-    public OrderServiceImpl(OrderRepo orderRepo, MemberRepo memberRepo) {
+    public OrderServiceImpl(OrderRepo orderRepo, MemberRepo memberRepo, ProductRepo productRepo) {
         this.orderRepo = orderRepo;
         this.memberRepo = memberRepo;
+        this.productRepo = productRepo;
     }
 
     @Override
@@ -54,8 +56,17 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> addOrder(OrderDto orderDto) {
         Member member = this.memberRepo.findById(orderDto.getUsername())
                 .orElseThrow(() -> new InvalidUsernameException());
-        //Member member, String phoneNumber, String address, String city, String postalCode, Boolean toDoor, Long trackingNumber
-        this.orderRepo.deleteByTrackingNumber(orderDto.getTrackingNumber());
-        return Optional.of(this.orderRepo.save(new Order(member, orderDto.getPhoneNumber(), orderDto.getAddress(), orderDto.getCity(), orderDto.getPostalCode(), orderDto.getToDoor(), orderDto.getTrackingNumber())));
+        List<Product> products = new ArrayList<>();
+        for (Long id: orderDto.getProductIds()) {
+            Product p = this.productRepo.findById(id).get();
+            products.add(p);
+            p.setQuantity(p.getQuantity() - 1);
+            p.setSold(p.getSold() + 1);
+            this.productRepo.save(p);
+        }
+        return Optional.of(this.orderRepo.save(new Order(member,
+                orderDto.getPhoneNumber(), orderDto.getAddress(),
+                orderDto.getCity(), orderDto.getPostalCode(),
+                orderDto.getToDoor(), products)));
     }
 }

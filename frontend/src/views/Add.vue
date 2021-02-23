@@ -1,21 +1,16 @@
 <template>
   <div class="bg-light">
     <nav-component></nav-component>
-    <div class="container p-5 text-center mt-5" v-show="!loggedIn">
-      <span class="h1 text-danger">
-        Не сте автентицирани за да имате пристап до оваа страна
-      </span>
-    </div>
-    <div class="container p-5 mt-5" v-show="!loggedIn">
+    <div class="container p-5 mt-5" >
       <div class="row bg-white p-5 rounded">
         <div class="col-lg-6">
-          <img class="img-fluid" :src="product.image" />
+          <img class="img-fluid" :src="product.imageUrl" />
           <label>Внесете url за слика на производот</label>
           <input
             type="text"
             class="form-control my-auto"
             placeholder="Внесете url за слика на производот"
-            v-model="product.image"
+            v-model="product.imageUrl"
           />
         </div>
         <div class="col-lg-6">
@@ -98,10 +93,9 @@ export default {
         name: undefined,
         type: undefined,
         quantity: undefined,
-        image: undefined,
+        imageUrl: undefined,
         sale: null,
         sold: 0,
-        sharingMembers: []
       },
     };
   },
@@ -110,7 +104,8 @@ export default {
       console.log(this.product)
       ProductService.add(this.product)
           .then(() => {
-            console.log("success")
+            alert("Успешно додаден производ!")
+            this.$router.push("/");
           })
           .catch((e) => {
         console.log(e)

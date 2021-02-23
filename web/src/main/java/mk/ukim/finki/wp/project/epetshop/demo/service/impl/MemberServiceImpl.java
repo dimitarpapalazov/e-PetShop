@@ -4,16 +4,15 @@ package mk.ukim.finki.wp.project.epetshop.demo.service.impl;
 import mk.ukim.finki.wp.project.epetshop.demo.model.Member;
 import mk.ukim.finki.wp.project.epetshop.demo.model.enumerations.MemberRole;
 import mk.ukim.finki.wp.project.epetshop.demo.model.enumerations.VerificationStatus;
-import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.EmailNotFoundException;
-import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidUsernameOrPasswordException;
-import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.PasswordsDoNotMatchException;
-import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.UsernameAlreadyExistsException;
+import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.*;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.MemberRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.service.MemberService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -38,6 +37,18 @@ public class MemberServiceImpl implements MemberService {
             throw new EmailNotFoundException(email);
         Member member = new Member(username,email,passwordEncoder.encode(password),firstName,lastName,role, status);
         return memberRepo.save(member);
+    }
+
+    @Override
+    public Member verify(Integer code, String username) {
+        List<Member> members = memberRepo.findAll();
+        Member member =
+                memberRepo.findByUsername(username).get();
+        if (member.getVerificationCode().equals(code)) {
+            member.setStatus(VerificationStatus.VERIFIED);
+            return memberRepo.save(member);
+        }
+        throw new InvalidVerificationCodeException();
     }
 
     @Override

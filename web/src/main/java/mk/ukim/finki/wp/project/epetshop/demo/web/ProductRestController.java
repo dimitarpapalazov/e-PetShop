@@ -53,7 +53,6 @@ public class ProductRestController {
         }
     }
 
-    //TODO da se smeni
     @PostMapping("/add")
     public ResponseEntity<Product> save(@RequestBody ProductDto productDto) {
         return this.productService.addProduct(productDto)
@@ -62,8 +61,7 @@ public class ProductRestController {
 
     }
 
-    //TODO i ovde productDto
-    @PutMapping("/edit/{id}")
+    @PostMapping("/edit/{id}")
     public ResponseEntity<Product> save(@PathVariable Long id, @RequestBody ProductDto productDto) {
         return this.productService.updateProduct(id, productDto)
                 .map(product -> ResponseEntity.ok().body(product))
@@ -72,11 +70,10 @@ public class ProductRestController {
 
 
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteById(@PathVariable Long id) {
-        this.productService.deleteById(id);
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Product> deleteById(@PathVariable Long id) {
         try {
-            Product p = this.productService.findProduct(id);
+            Product p = this.productService.deleteById(id);
             if (p != null)
                 return ResponseEntity.ok().body(p);
             else return ResponseEntity.notFound().build();

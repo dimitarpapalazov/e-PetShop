@@ -7,7 +7,8 @@
           <span class="h2 font-weight-bold text-uppercase">Сите Производи</span>
         </div>
         <div class="col-lg-12 my-3">
-          <router-link to="/add" v-show="loggedIn" class="btn btn-secondary">
+          <router-link to="/add" v-show="user == null ? false: user.role ===
+          'ROLE_ADMIN'" class="btn btn-secondary">
             Додади нов производ
           </router-link>
         </div>
@@ -15,8 +16,8 @@
           <div
             class="col-lg-12 mx-auto my-5 bg-white rounded border border-dark text-center p-3"
           >
-            <span
-              v-show="loggedIn"
+            <span v-show="user == null ? false: user.role ===
+          'ROLE_ADMIN'"
               style="cursor: pointer"
               class="text-danger font-weight-bold"
               title="Delete"
@@ -40,7 +41,8 @@
               <div class="col-lg-12 my-1 mx-auto">
                 <a
                   :href="getEditLink(product.id)"
-                  v-show="loggedIn"
+                  v-show="user == null ? false: user.role ===
+          'ROLE_ADMIN'"
                   class="btn btn-outline-primary rounded"
                 >
                   Промени
@@ -84,7 +86,10 @@ export default {
   },
   methods: {
     addToCart(item) {
-      this.$store.commit("addToCart", item);
+      if(this.loggedIn)
+        this.$store.commit("addToCart", item);
+      else
+        this.$router.push("/login")
     },
     getLink(id) {
       return "/details/" + id;
@@ -93,7 +98,16 @@ export default {
       return "/edit/" + id;
     },
     deleteItem(product) {
-      ProductService.delete(product.id)
+      ProductService.delete(product.id).then(() => {
+        ProductService.allProducts().then(response => {
+          this.products = response.data;
+        })
+      }).catch((e) => {
+        console.log(e);
+        ProductService.allProducts().then(response => {
+          this.products = response.data;
+        })
+      })
     },
   },
   created(){
@@ -105,6 +119,9 @@ export default {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
+    user() {
+      return this.$store.state.user;
+    }
   },
   components: {
     "nav-component": Nav,

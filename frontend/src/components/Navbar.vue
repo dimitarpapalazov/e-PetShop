@@ -32,27 +32,29 @@
             <li  class="nav-item ml-auto mr-2 mr-lg-3">
               <router-link class="nav-link" to="/contact">Контакт</router-link>
             </li>
-            <li  class="nav-item ml-auto mr-2 mr-lg-3">
+            <li v-show="loggedIn" class="nav-item ml-auto mr-2 mr-lg-3">
               <router-link class="nav-link" to="/orders">Нарачки</router-link>
             </li>
             <li
-
+                v-show="!loggedIn"
                 class="nav-item ml-auto mr-2 mr-lg-3"
 
             >
               <router-link class="nav-link" to="/login">Најави се</router-link>
             </li>
             <li
-
+                v-show="!loggedIn"
                 class="nav-item ml-auto mr-2 mr-lg-3"
+
             >
               <router-link class="nav-link" to="/register">Регистрирај
                 се</router-link>
             </li>
             <li
-
+                v-show="loggedIn"
               class="nav-item ml-auto mr-2 mr-lg-3"
               @click="logOut()"
+              style="cursor: pointer"
             >
               <span class="nav-link">Одјави се</span>
             </li>

@@ -24,24 +24,26 @@
         >
           <div class="row">
             <div class="col-lg-12 my-3">
-              Id: <span class="text-primary">{{ o[".key"] }}</span>
+              Id: <span class="text-primary">{{ o.id }}</span>
             </div>
             <div class="col-lg-12 my-3">
               Дата на нарачка:
-              <span class="text-primary">{{ o.dateOrdered }}</span>
+              <span class="text-primary">{{ o.dateOrder }}</span>
             </div>
             <div class="col-lg-12 my-3">
-              Email адреса:<span class="text-primary"> {{ o.email }}</span>
+              Email адреса:<span class="text-primary"> {{ o.member.email
+              }}</span>
             </div>
             <div class="col-lg-12 my-3">
-              Име и презиме: <span class="text-primary">{{ o.name }}</span>
+              Име и презиме: <span class="text-primary">{{ o.member.firstName
+              }} {{o.member.lastName}}</span>
             </div>
             <div class="col-lg-12 my-3">
               Име на компанија (Опционално):
               <span class="text-primary">{{ o.company }}</span>
             </div>
             <div class="col-lg-12 my-3">
-              Телефон: <span class="text-primary">{{ o.phone }}</span>
+              Телефон: <span class="text-primary">{{ o.phoneNumber }}</span>
             </div>
             <div class="col-lg-12 my-3">
               Адреса:
@@ -49,9 +51,17 @@
                 >{{ o.address }}, {{ o.city }}, {{ o.postal }}</span
               >
             </div>
-            <div class="col-lg-12 my-3">
+            <div v-show="user == null ? false: user.role ===
+          'ROLE_USER'" class="col-lg-12 my-3">
+              Број за пратење:
+              <span class="text-primary"
+              >{{ o.tracking }}</span
+              >
+            </div>
+            <div v-show="user == null ? false: user.role ===
+          'ROLE_ADMIN'" class="col-lg-12 my-3">
               Email порака со број за пратење:
-              <div class="input-group">
+              <div class="input-group" >
                 <input
                   v-model="o.tracking"
                   type="text"
@@ -66,7 +76,6 @@
                     class="btn btn-primary"
                     id="track"
                   >
-<!--                    Треба да се напрај да се пушта автоматски емаил-->
                     Прати
                   </a>
                 </div>
@@ -76,7 +85,7 @@
               Производи:
               <div v-for="p in o.products" :key="p.index">
                 <span class="text-primary">
-                  {{ p.name }}, {{ p.type }} - {{ p.collection }}</span
+                  {{ p.name }}, {{ p.type.name }}</span
                 >
               </div>
             </div>
@@ -100,21 +109,35 @@ import OrderService from "@/repositories/ordersRepository";
 export default {
   data() {
     return {
+      orders: [],
     };
   },
   methods: {
     updateTracking(order) {
       OrderService.addTracking(order.id, order.tracking)
     },
+    loadOrders() {
+      if(this.user.role !== "ROLE_ADMIN") {
+        OrderService.allOrders(this.user.username).then((response) => {
+          this.orders = response.data;
+        })
+      }
+      else
+        OrderService.allOrders().then((response) => {
+          this.orders = response.data;
+        })
+    }
+  },
+  mounted() {
+    this.loadOrders();
   },
   computed: {
-    orders(){
-      //TODO: треба да се смени ако ко ќе се напрај најавувањето
-      return OrderService.allOrders()
-    },
     loggedIn() {
       return this.$store.state.loggedIn;
     },
+    user() {
+      return this.$store.state.user;
+    }
   },
   components: {
     "nav-component": Nav,

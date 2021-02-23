@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     loggedIn: false,
-    user: {},
+    user: null,
     cart: [],
     types:[],
   },
@@ -15,11 +15,13 @@ export default new Vuex.Store({
       localStorage.setItem("loggedIn", true);
       localStorage.setItem("user", JSON.stringify(user));
       state.loggedIn = true;
+      state.user = user;
     },
     doLogOff(state) {
       localStorage.setItem("loggedIn", false);
       localStorage.removeItem("user");
       state.loggedIn = false;
+      state.user = null;
     },
     setCartToEmpty(state) {
       state.cart = [];
@@ -66,6 +68,7 @@ export default new Vuex.Store({
       }
       if (localStorage.getItem("loggedIn") == "true") {
         state.loggedIn = true;
+        state.user = JSON.parse(localStorage.getItem("user"));
       }
       if (localStorage.getItem("cart") != null) {
         state.cart = JSON.parse(localStorage.getItem("cart"));

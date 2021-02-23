@@ -105,7 +105,10 @@ export default {
   },
   methods: {
     addToCart(item) {
-      this.$store.commit("addToCart", item);
+      if(this.loggedIn)
+        this.$store.commit("addToCart", item);
+      else
+        this.$router.push("/login")
     },
     getLink(id) {
       return "/details/" + id;
@@ -126,6 +129,9 @@ export default {
     this.loadProducts();
   },
   computed: {
+    loggedIn() {
+      return this.$store.state.loggedIn;
+    },
   },
   components: {
     "nav-component": Nav,

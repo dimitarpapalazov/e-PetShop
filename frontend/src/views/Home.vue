@@ -76,13 +76,21 @@ export default {
       return "/details/" + id;
     },
     addToCart(item) {
-      this.$store.commit("addToCart", item);
+      if(this.loggedIn)
+        this.$store.commit("addToCart", item);
+      else
+        this.$router.push("/login")
     },
   },
   created(){
     ProductService.bestProducts().then(response => {
       this.best = response.data;
     })
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.loggedIn;
+    },
   },
   components: {
     "nav-component": Nav,

@@ -107,8 +107,8 @@ export default {
       MemberService.registration(this.username,this.email,
           this.password,this.repeat, this.name, this.surname).then((response) => {
             this.user = response.data;
-            console.log(this.user);
-            //TODO да се додај во логирани и да се продолжи кон верификација
+            this.$store.commit("doLogIn", this.user);
+            this.$router.push("/verify")
       }).catch(() => {
         this.errorMessage = "Настана некаква грешка, обидете се повторно!";
       })

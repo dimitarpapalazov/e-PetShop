@@ -23,7 +23,7 @@
         </div>
         <div
           v-for="p in products"
-          :key="p.index"
+          :key="p.id"
           class="col-lg-12 bg-white border border-dark border-bottom-0 py-3"
         >
           <div class="row">
@@ -36,7 +36,7 @@
               </button>
             </div>
             <div class="col-lg-1 my-auto">
-              <img class="img-fluid" :src="p.images[0]" :alt="p.name" />
+              <img class="img-fluid" :src="p.imageUrl" :alt="p.name" />
             </div>
             <div class="col-lg-4 text-primary my-auto">{{ p.name }}</div>
             <div class="col-lg-5 text-dark my-auto">

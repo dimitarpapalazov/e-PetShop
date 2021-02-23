@@ -19,14 +19,14 @@
           <br />
           Имаме достава низ цела Македонија, времето на достава е 2 до 5 работни
           дена. Можност за достава имаме до врата и со подигнување. Цена за
-          достава: 200 денари
+          достава: 150 денари
         </div>
         <div class="form-group col-lg-12 mx-auto">
           <label for="email"
             >Email адреса <span class="text-danger">*</span></label
           >
           <input
-            v-model="email"
+            v-model="user.email"
             type="email"
             class="form-control bg-light"
             id="email"
@@ -39,7 +39,7 @@
                 >Име <span class="text-danger">*</span></label
               >
               <input
-                v-model="firstName"
+                v-model="user.firstName"
                 type="text"
                 class="form-control bg-light"
                 id="firstName"
@@ -51,7 +51,7 @@
                 >Презиме <span class="text-danger">*</span></label
               >
               <input
-                v-model="lastName"
+                v-model="user.lastName"
                 type="text"
                 class="form-control bg-light"
                 id="lastName"
@@ -138,7 +138,7 @@
                 class="nav-link border-bottom border-dark"
                 :class="{ active: doorOrderType }"
                 @click="changeOrderType('door')"
-                >БЕСПЛАТНА Достава до ВРАТА</span
+                >Достава до ВРАТА: 50 ден.</span
               >
             </li>
           </ul>
@@ -171,9 +171,6 @@ export default {
       delivery: 150,
       baseOrderType: true,
       doorOrderType: false,
-      email: undefined,
-      firstName: undefined,
-      lastName: undefined,
       company: undefined,
       phone: undefined,
       address: undefined,
@@ -201,8 +198,21 @@ export default {
       }
     },
     createOrder() {
-      //TODO треба да се допрај
-      return OrderService.add({})
+      return OrderService.add({
+        username: this.user.username,
+        phoneNumber: this.phone,
+        address: this.address,
+        city: this.city,
+        postalCode: this.postal,
+        toDoor: this.doorOrderType,
+        trackingNumber: null,
+        productIds: this.products.map(p => p.id),
+        company: this.company === undefined ? null : this.company
+      }).then(() => {
+        alert("Успешно направена нарачка!");
+        this.$store.commit("setCartToEmpty");
+        this.$router.push("/");
+      })
     },
   },
   computed: {
@@ -214,11 +224,14 @@ export default {
             ? parseInt(p.price)
             : Math.round(p.price * (1 - p.sale / 100));
       }
-      return sum;
+      return sum + this.delivery;
     },
     products() {
       return this.$store.state.cart;
     },
+    user() {
+      return this.$store.state.user;
+    }
   },
 };
 </script>

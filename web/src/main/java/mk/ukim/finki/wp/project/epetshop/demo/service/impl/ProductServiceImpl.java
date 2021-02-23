@@ -38,7 +38,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findMostSellingProducts() {
-        List<Product> products=productRepo.findAll(Sort.by(Sort.Direction.ASC, "sold"));
+        List<Product> products=productRepo.findAll(Sort.by(Sort.Direction.DESC,
+                "sold"));
         if(products.size()<=6){
             return products;
         }
@@ -59,6 +60,7 @@ public class ProductServiceImpl implements ProductService {
         products.sort(Comparator.comparing(Product::getSold).reversed());
         List<Product> firstFour=new ArrayList<>();
         for(int i=0;i<4;i++){
+            if(products.get(i).getId() != id)
             firstFour.add(products.get(i));
         }
         return firstFour;

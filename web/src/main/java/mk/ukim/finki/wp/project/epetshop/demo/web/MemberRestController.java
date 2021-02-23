@@ -42,6 +42,12 @@ public class MemberRestController {
         }
     }
 
+    @PostMapping("/verify")
+    public Member verify(@RequestParam String code,
+                         @RequestParam String username) {
+        return this.memberService.verify(Integer.parseInt(code), username);
+    }
+
     @GetMapping("/login")
     public Member login(@RequestParam String username, @RequestParam String password){
         return this.authService.login(username, password);
