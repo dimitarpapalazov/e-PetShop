@@ -39,13 +39,14 @@ public class DataInitializer {
     public void initData() {
         Member admin =
                 this.userService.register("admin",
-                        "admin", "admin","admin", "admin", "admin",
+                        "epetshop.project@gmail.com", "admin","admin", "admin",
+                        "admin",
                         MemberRole.ROLE_ADMIN,
                         VerificationStatus.VERIFIED);
         Member dp = this.userService.register("dp", "d.papalazov@outlook.com"
                 , "dp", "dp", "Dimitar", " Papalazov", MemberRole.ROLE_USER,
                 VerificationStatus.VERIFIED);
-        Member as = this.userService.register("as", "as@email.com"
+        Member as = this.userService.register("as", "yourpapauniverse@gmail.com"
                 , "as", "as", "Angela", " Sotirovska", MemberRole.ROLE_USER,
                 VerificationStatus.VERIFIED);
 

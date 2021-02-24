@@ -9,6 +9,7 @@ import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.InvalidUsernameEx
 import mk.ukim.finki.wp.project.epetshop.demo.repository.MemberRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.OrderRepo;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.ProductRepo;
+import mk.ukim.finki.wp.project.epetshop.demo.service.EmailService;
 import mk.ukim.finki.wp.project.epetshop.demo.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +23,13 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepo orderRepo;
     private final MemberRepo memberRepo;
     private final ProductRepo productRepo;
+    private final EmailService emailService;
 
-    public OrderServiceImpl(OrderRepo orderRepo, MemberRepo memberRepo, ProductRepo productRepo) {
+    public OrderServiceImpl(OrderRepo orderRepo, MemberRepo memberRepo, ProductRepo productRepo, EmailService emailService) {
         this.orderRepo = orderRepo;
         this.memberRepo = memberRepo;
         this.productRepo = productRepo;
+        this.emailService = emailService;
     }
 
     @Override
@@ -44,6 +47,8 @@ public class OrderServiceImpl implements OrderService {
     public Order editTrackingNumber(Long id, Long number) {
         Order order=this.findOrder(id);
         order.setTrackingNumber(number);
+        emailService.sendTrackingNumberUpdateEmail(id, order.getMember(),
+                number.intValue());
         return this.orderRepo.save(order);
     }
 

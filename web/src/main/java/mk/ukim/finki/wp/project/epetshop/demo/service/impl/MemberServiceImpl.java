@@ -6,6 +6,7 @@ import mk.ukim.finki.wp.project.epetshop.demo.model.enumerations.MemberRole;
 import mk.ukim.finki.wp.project.epetshop.demo.model.enumerations.VerificationStatus;
 import mk.ukim.finki.wp.project.epetshop.demo.model.exceptions.*;
 import mk.ukim.finki.wp.project.epetshop.demo.repository.MemberRepo;
+import mk.ukim.finki.wp.project.epetshop.demo.service.EmailService;
 import mk.ukim.finki.wp.project.epetshop.demo.service.MemberService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,10 +20,12 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepo memberRepo;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public MemberServiceImpl(MemberRepo memberRepo, PasswordEncoder passwordEncoder) {
+    public MemberServiceImpl(MemberRepo memberRepo, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.memberRepo = memberRepo;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @Override
@@ -36,6 +39,8 @@ public class MemberServiceImpl implements MemberService {
         if(this.memberRepo.findByEmail(email).isPresent())
             throw new EmailNotFoundException(email);
         Member member = new Member(username,email,passwordEncoder.encode(password),firstName,lastName,role, status);
+        if (member.getRole().equals(MemberRole.ROLE_USER))
+        this.emailService.sendVerificationEmail(member.getEmail(), member.getVerificationCode());
         return memberRepo.save(member);
     }
 
