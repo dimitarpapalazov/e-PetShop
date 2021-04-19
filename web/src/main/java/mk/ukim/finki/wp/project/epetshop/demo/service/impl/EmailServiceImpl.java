@@ -33,7 +33,7 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject("Вашата e-PetShop пратка е испратена");
         message.setText("Почитувани, " + member.getFirstName() + " " + member.getLastName() + ",\n"
         + "Вашата пратка со id: " + id + " е штотуку испратена.\n"
-        + "Mожете да ја пратите на веб страната на краго компанијата со " +
+        + "Mожете да ја пратите на веб страната на карго компанијата со " +
                 "следниот код: " + code);
         javaMailSender.send(message);
     }
