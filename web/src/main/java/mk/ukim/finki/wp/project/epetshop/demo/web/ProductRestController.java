@@ -61,7 +61,7 @@ public class ProductRestController {
 
     }
 
-    @PostMapping("/edit/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<Product> save(@PathVariable Long id, @RequestBody ProductDto productDto) {
         return this.productService.updateProduct(id, productDto)
                 .map(product -> ResponseEntity.ok().body(product))

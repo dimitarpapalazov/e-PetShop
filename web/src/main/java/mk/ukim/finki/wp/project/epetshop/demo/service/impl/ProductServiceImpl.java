@@ -59,9 +59,14 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products=this.productRepo.findAllByTypeLike(type);
         products.sort(Comparator.comparing(Product::getSold).reversed());
         List<Product> firstFour=new ArrayList<>();
-        for(int i=0;i<4;i++){
-            if(products.get(i).getId() != id)
-            firstFour.add(products.get(i));
+        int i = 0;
+        for (Product p: products) {
+            if (i == 4)
+                break;
+            if (p.getId().equals(product.getId()))
+                continue;
+            firstFour.add(p);
+            i++;
         }
         return firstFour;
     }

@@ -116,13 +116,13 @@ export default {
       ProductService.edit(this.product.id,{
         price: this.product.price,
         name: this.product.name,
-        type: this.product.type,
+        type: this.product.type.id,
         quantity: this.product.quantity,
         imageUrl: this.product.imageUrl,
         sale: this.product.sale,
         sold: this.product.sold,
       }).then(()=>{
-        alert("Успешно додаден производ!")
+        alert("Успешно променет производ!")
         this.$router.push("/");
       });
     },

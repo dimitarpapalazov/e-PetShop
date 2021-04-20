@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
         if(this.memberRepo.findByUsername(username).isPresent())
             throw new UsernameAlreadyExistsException(username);
         if(this.memberRepo.findByEmail(email).isPresent())
-            throw new EmailNotFoundException(email);
+            throw new EmailAlreadyExistsException(email);
         Member member = new Member(username,email,passwordEncoder.encode(password),firstName,lastName,role, status);
         if (member.getRole().equals(MemberRole.ROLE_USER))
         this.emailService.sendVerificationEmail(member.getEmail(), member.getVerificationCode());

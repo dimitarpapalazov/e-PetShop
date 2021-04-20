@@ -55,7 +55,7 @@
           'ROLE_USER'" class="col-lg-12 my-3">
               Број за пратење:
               <span class="text-primary"
-              >{{ o.tracking }}</span
+              >{{ o.trackingNumber }}</span
               >
             </div>
             <div v-show="user == null ? false: user.role ===
@@ -63,7 +63,7 @@
               Email порака со број за пратење:
               <div class="input-group" >
                 <input
-                  v-model="o.tracking"
+                  v-model="o.trackingNumber"
                   type="text"
                   class="form-control"
                   placeholder="Број за пратење"
@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     updateTracking(order) {
-      OrderService.addTracking(order.id, order.tracking)
+      OrderService.addTracking(order.id, order.trackingNumber)
     },
     loadOrders() {
       if(this.user.role !== "ROLE_ADMIN") {
